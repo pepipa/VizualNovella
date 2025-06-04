@@ -53,11 +53,12 @@ public class Dialogues : MonoBehaviour
 
     public void StartDialogue()
     {    
-        _saveLoadService.LoadData();
+        int savedScene = PlayerPrefs.GetInt("SavedScene", -1);
         DialogPlay = true;
         _dialoguePanel.SetActive(true);
-        if (PlayerPrefs.GetString(DialogueProgressKey) != "")
-        {
+        if (savedScene == UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex && PlayerPrefs.GetString(DialogueProgressKey) != "")
+        {         
+            _saveLoadService.LoadData();
             _dialogueText.text = _currentStory.currentText;
             ChangeCharacter();
             ShowChoiceButtons();
@@ -80,10 +81,58 @@ public class Dialogues : MonoBehaviour
             ExitDialogue();
         }
     }
+    private void HandleTags(List<string> tags)
+    {
+        foreach (string tag in tags)
+        {
+            if (tag.StartsWith("bg "))
+            {
+                string bgName = tag.Substring(3);
+                FindObjectOfType<BackgroundController>().SetBackground(bgName);
+            }
+            if (tag.StartsWith("show "))
+            {
+                string name = tag.Substring(5);
+                var character = characters.Find(c => c.characterName == name);
+                if (character != null)
+                {
+                    character.Show();
 
+                    if (_currentStory.variablesState[character.currentEmotionVariable] != null)
+                    {
+                        int emotionIndex = Convert.ToInt32(_currentStory.variablesState[character.currentEmotionVariable]);
+                        character.ChangeEmotions(emotionIndex);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Не найдена переменная эмоции: {character.currentEmotionVariable}");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Персонаж с именем '{name}' не найден!");
+                }
+            }
+            if (tag.StartsWith("hide "))
+            {
+                string name = tag.Substring(5);
+                var character = characters.Find(c => c.characterName == name);
+                if (character != null)
+                {
+                    character.Hide();
+                }
+                else
+                {
+                    Debug.LogWarning($"Персонаж для скрытия с именем '{name}' не найден!");
+                }
+            }
+
+        }
+    }
     private void ShowDialogue()
     {
         _dialogueText.text = _currentStory.Continue();
+        HandleTags(_currentStory.currentTags);
         _saveLoadService.SaveData();
         ChangeCharacter();
     }

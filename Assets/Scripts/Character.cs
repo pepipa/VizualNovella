@@ -29,4 +29,14 @@ public class Character : MonoBehaviour
     {
         transform.localScale = defaultScale;
     }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }

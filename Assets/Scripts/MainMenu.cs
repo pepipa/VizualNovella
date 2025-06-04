@@ -1,26 +1,40 @@
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-    public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour
+{
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button newGameButton;
+    private const string DialogueProgressKey = "CurrentState";
+    private const string SceneIndexKey = "SavedSceneIndex";
+
+    void Start()
     {
-        [SerializeField] private TextMeshProUGUI startText;
-        private const string DialogueProgressKey = "CurrentState";
-        void Start()
-        {
-            startText.text = PlayerPrefs.GetString(DialogueProgressKey) != "" ? "Continue" : "Start";
-        }
-
-        public void SceneChange(int indexScene)
-        {
-            SceneManager.LoadScene(indexScene);
-        }
-
-        public void ExitGame()
-        {
-            Debug.Log("Выход из игры");
-            Application.Quit();
-        }
+        bool hasSave = PlayerPrefs.HasKey(DialogueProgressKey) && !string.IsNullOrEmpty(PlayerPrefs.GetString(DialogueProgressKey));
+        continueButton.gameObject.SetActive(hasSave);
+        newGameButton.gameObject.SetActive(true);
     }
+
+    public void ContinueGame()
+    {
+        int savedScene = PlayerPrefs.GetInt(SceneIndexKey, 1);
+        SceneManager.LoadScene(savedScene);
+    }
+
+    public void NewGame()
+    {
+        PlayerPrefs.DeleteKey(DialogueProgressKey);
+        PlayerPrefs.DeleteKey(SceneIndexKey);
+        SceneManager.LoadScene(1); 
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Выход из игры");
+        Application.Quit();
+    }
+}

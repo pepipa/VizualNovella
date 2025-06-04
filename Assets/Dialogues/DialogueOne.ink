@@ -1,43 +1,55 @@
 VAR firstCharacterExpression = 0
-VAR secondCharacterExpression = 0
+VAR characterName = "Алина"
+~characterName = ""
 
-VAR characterName = "Anna"
+#hide Алина
+#bg black
+Это начало истории, ты просыпаешься в комнате.
 
-Ку
+#bg white
+Вдруг комната наполняется светом, ты видишь что-то странное...
+#bg bolnica
+~firstCharacterExpression = 0
+Она появляется из темноты.
+#show Алина
+~characterName = "Алина"
+
+Ку  
 Как дела?
+
 ~firstCharacterExpression = 1
 Все норм?
 
+~characterName = ""
+Да, все хорошо, никаких проблем
+
+~characterName = "Алина"
+Точно норм?
     +[Норм]
-        ->answer1
+        -> answer1
     +[Не норм]
-        ->answer2
+        -> answer2
+
 === answer1 ===
-~characterName = "Olya"
-Хм..
-~secondCharacterExpression = 1
-А чем занимаешься? 
+Хм..  
+А чем занимаешься?  
     +[Ничем]
-        ->answer3
+        -> answer3
     +[Отдыхаю]
-        ->answer4
-->END
+        -> answer4
+-> END
 
 === answer2 ===
-Блин
-~secondCharacterExpression = 2
-Грустно
+Блин  
+Грустно  
 -> END
 
 === answer3 === 
-...
-~secondCharacterExpression = 2
-Пошли погуляем
+...  
+Пошли погуляем  
 -> END
 
 === answer4 ===
-...
-~secondCharacterExpression = 2
-Ну ладно отдыхай
-
+...  
+Ну ладно отдыхай  
 -> END
