@@ -25,6 +25,10 @@ public class Dialogues : MonoBehaviour
     private float multiplier = 1.1f;
     private SaveLoadService _saveLoadService;
 
+    [SerializeField] private GameObject letterPanel;
+    [SerializeField] private CanvasGroup letterCanvasGroup;
+
+    private Coroutine _letterCoroutine;
     public bool DialogPlay {  get; private set; }
     public Story CurrentStory => _currentStory;
     [Inject]
@@ -126,9 +130,75 @@ public class Dialogues : MonoBehaviour
                     Debug.LogWarning($"Персонаж для скрытия с именем '{name}' не найден!");
                 }
             }
+            if (tag == "letter_show")
+            {
+                if (_letterCoroutine != null)
+                    StopCoroutine(_letterCoroutine);
+
+                ShowLetterInstant();
+
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            if (tag == "letter_hide")
+            {
+                if (_letterCoroutine != null)
+                    StopCoroutine(_letterCoroutine);
+
+                HideLetterInstant();
+
+                _dialoguePanel.SetActive(true);
+            }
 
         }
     }
+/*
+    private IEnumerator ShowLetter()
+    {
+        letterPanel.SetActive(true);
+        letterCanvasGroup.alpha = 0f;
+
+        float duration = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            letterCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        letterCanvasGroup.alpha = 1f;
+    }
+    
+        private IEnumerator HideLetter()
+        {
+            float duration = 1f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                letterCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            letterCanvasGroup.alpha = 0f;
+            letterPanel.SetActive(false);
+        }
+    */
+
+    private void ShowLetterInstant()
+    {
+        letterCanvasGroup.alpha = 1f;
+        letterPanel.SetActive(true);
+    }
+    private void HideLetterInstant()
+    {
+        letterCanvasGroup.alpha = 0f;
+        letterPanel.SetActive(false);
+    }
+
     private void ShowDialogue()
     {
         _dialogueText.text = _currentStory.Continue();

@@ -8,8 +8,7 @@ public class BackgroundController : MonoBehaviour
     public Image backgroundImage;
 
     public Sprite blackBg;
-    public Sprite whiteBg;
-    public Sprite bolnicaBg;
+    public Sprite chapterBg;
 
     public void SetBackground(string name)
     {
@@ -18,11 +17,8 @@ public class BackgroundController : MonoBehaviour
             case "black":
                 backgroundImage.sprite = blackBg;
                 break;
-            case "white":
-                backgroundImage.sprite = whiteBg;
-                break;
-            case "bolnica":
-                backgroundImage.sprite = bolnicaBg;
+            case "chapter":
+                backgroundImage.sprite = chapterBg;
                 break;
             default:
                 Debug.LogWarning("Нет такого фона: " + name);
