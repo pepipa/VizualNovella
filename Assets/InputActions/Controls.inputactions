@@ -26,6 +26,17 @@
                     "action": "NextPhrase",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd503ddc-10fc-4b9e-98d2-5f0e3ee12940",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextPhrase",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

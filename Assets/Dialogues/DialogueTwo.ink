@@ -55,7 +55,7 @@ VAR ghostVisible = false
 Ты все еще можешь спасти меня…
 ~ghostVisible = false
 ~characterName = ""
-~ path1_done = true
+~path1_done = true
 -> return_to_hub
 
 === no ===

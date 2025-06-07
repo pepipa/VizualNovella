@@ -7,7 +7,7 @@ VAR ghostVisible = false
 VAR letterVisible = false
 
 ~characterName = "Алина"
-"Ты ведь был рядом... хотя бы тогда..."
+Ты ведь был рядом... хотя бы тогда...
 ~characterName = ""
 -> aweking
 === aweking ===

@@ -23,11 +23,11 @@ public class SaveLoadService : ISaveLoadService
     }
 
     public void LoadData()
+{
+    if(PlayerPrefs.GetString(DialogueProgressKey) != "")
     {
-        if(PlayerPrefs.GetString(DialogueProgressKey) != "")
-        {
-            _jsonData = PlayerPrefs.GetString(DialogueProgressKey);
-            _dialogues.CurrentStory.state.LoadJson(_jsonData);
-        }    
-    }
+        _jsonData = PlayerPrefs.GetString(DialogueProgressKey);
+        _dialogues.CurrentStory.state.LoadJson(_jsonData);
+    }    
+}
 }

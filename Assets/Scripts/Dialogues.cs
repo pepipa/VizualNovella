@@ -231,6 +231,13 @@ public class Dialogues : MonoBehaviour
     {
         DialogPlay = false;
         _dialoguePanel.SetActive(false);
+
+        GameObject music = GameObject.FindGameObjectWithTag("Music");
+        if (music != null)
+        {
+            Destroy(music);
+        }
+
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
