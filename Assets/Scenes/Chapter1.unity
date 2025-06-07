@@ -788,8 +788,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 105.329765}
-  m_SizeDelta: {x: 900, y: 714.4385}
+  m_AnchoredPosition: {x: 0, y: 125.05}
+  m_SizeDelta: {x: 900, y: 675.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &749862198
 MonoBehaviour:
@@ -950,7 +950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9811321, g: 0.96321356, b: 0.763617, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1066,7 +1066,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 1602481568}
   blackBg: {fileID: 21300000, guid: 65f0735f8d48cfa468e4a8639b32a89e, type: 3}
-  chapterBg: {fileID: 21300000, guid: 68bd0aeefddbeec49b799db9ac18846c, type: 3}
+  chapter1Bg: {fileID: 21300000, guid: 68bd0aeefddbeec49b799db9ac18846c, type: 3}
+  chapter2Bg: {fileID: 0}
+  chapter2BgCRN: {fileID: 0}
+  chapter2BgCRH: {fileID: 0}
 --- !u!1 &1649535298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5060290451241485152, guid: 3c47ec730c9b1a84aabc4f376c87c126, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 711.2546
+      value: 704.6929
       objectReference: {fileID: 0}
     - target: {fileID: 5060290451241485152, guid: 3c47ec730c9b1a84aabc4f376c87c126, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1531,11 +1534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5060290451241485152, guid: 3c47ec730c9b1a84aabc4f376c87c126, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 18.0056
+      value: 14.7265
       objectReference: {fileID: 0}
     - target: {fileID: 5060290451241485152, guid: 3c47ec730c9b1a84aabc4f376c87c126, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -19.4355
+      value: -19.435501
       objectReference: {fileID: 0}
     - target: {fileID: 5060290451241485159, guid: 3c47ec730c9b1a84aabc4f376c87c126, type: 3}
       propertyPath: m_text

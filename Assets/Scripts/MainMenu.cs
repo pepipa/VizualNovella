@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button newGameButton;
     private const string DialogueProgressKey = "CurrentState";
     private const string SceneIndexKey = "SavedSceneIndex";
+    private const string previousScene = "Settings";
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class MainMenu : MonoBehaviour
 
     public void ContinueGame()
     {
-        int savedScene = PlayerPrefs.GetInt(SceneIndexKey, 1);
+        int savedScene = PlayerPrefs.GetInt(SceneIndexKey, 2);
         SceneManager.LoadScene(savedScene);
     }
 
@@ -29,7 +30,12 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(DialogueProgressKey);
         PlayerPrefs.DeleteKey(SceneIndexKey);
-        SceneManager.LoadScene(1); 
+        SceneManager.LoadScene(2); 
+    }
+
+    public void Setting()
+    {
+        SceneManager.LoadScene(previousScene);
     }
 
     public void ExitGame()

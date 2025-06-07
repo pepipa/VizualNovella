@@ -1,17 +1,18 @@
 VAR characterName = ""
 VAR characterExpression = 0
 
-#hide Алина
-#hide ???
-#bg black
+VAR bgName = "black"
+VAR alinaVisible = false
+VAR ghostVisible = false
+VAR letterVisible = false
 
 ~characterName = "Алина"
 "Ты ведь был рядом... хотя бы тогда..."
 ~characterName = ""
 -> aweking
 === aweking ===
-#bg chapter
-Ты медленно открываешь глаза. Перед тобой — комната.  
+~bgName = "chapter1"
+Ты медленно открываешь глаза. Перед тобой — комната. 
 Ничего не двигается. Только тишина.
 Голова гудит.  
 Эти стены.  
@@ -62,14 +63,14 @@ VAR characterExpression = 0
 -> next 
 
 === next ===
-#bg black
+~ bgName = "black"
 Тухнет свет, в комнате темно.
 ~characterName = "???"
 Ты прочитал.
 Ты вспомнил.
 Но ты всё ещё не принял.
-#bg chapter
-#show ???
+~ bgName = "chapter1"
+~ ghostVisible = true
 Я знаю выход.
 Но вопрос в тебе.
 Ответь мне, только отвечай честно.

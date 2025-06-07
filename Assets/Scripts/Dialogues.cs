@@ -28,6 +28,8 @@ public class Dialogues : MonoBehaviour
     [SerializeField] private GameObject letterPanel;
     [SerializeField] private CanvasGroup letterCanvasGroup;
 
+    private BackgroundController _backgroundController;
+
     private Coroutine _letterCoroutine;
     public bool DialogPlay {  get; private set; }
     public Story CurrentStory => _currentStory;
@@ -42,12 +44,14 @@ public class Dialogues : MonoBehaviour
         _choiceButton = dialoguesInstaller.choiceButton;
         _saveLoadService = saveLoadService;
     }
-    private void Awake()
-    {
-        _currentStory = new Story(_inkJson.text);
-    }
+    /*  private void Awake()
+      {
+          _currentStory = new Story(_inkJson.text);
+      }*/
     private void Start()
     {
+        _backgroundController = FindObjectOfType<BackgroundController>(); 
+
         foreach (var character in FindObjectsOfType<Character>())
         {
             characters.Add(character);
@@ -56,19 +60,27 @@ public class Dialogues : MonoBehaviour
     }
 
     public void StartDialogue()
-    {    
-        int savedScene = PlayerPrefs.GetInt("SavedScene", -1);
+    {
         DialogPlay = true;
         _dialoguePanel.SetActive(true);
-        if (savedScene == UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex && PlayerPrefs.GetString(DialogueProgressKey) != "")
-        {         
+
+        int savedScene = PlayerPrefs.GetInt("SavedSceneIndex", -1);
+        bool hasSave = PlayerPrefs.HasKey(DialogueProgressKey) && !string.IsNullOrEmpty(PlayerPrefs.GetString(DialogueProgressKey));
+        bool isSameScene = savedScene == SceneManager.GetActiveScene().buildIndex;
+
+        if (hasSave && isSameScene)
+        {
+            _currentStory = new Story(_inkJson.text);
             _saveLoadService.LoadData();
+
             _dialogueText.text = _currentStory.currentText;
+            HandleVisualState(); 
             ChangeCharacter();
             ShowChoiceButtons();
         }
         else
         {
+            _currentStory = new Story(_inkJson.text);
             ContinieStory();
         }
     }
@@ -86,107 +98,57 @@ public class Dialogues : MonoBehaviour
         }
     }
     private void HandleTags(List<string> tags)
+     {
+         foreach (string tag in tags)
+         {         
+             if (tag == "letter_show")
+             {
+                 if (_letterCoroutine != null)
+                     StopCoroutine(_letterCoroutine);
+
+                 ShowLetterInstant();
+
+                 _dialoguePanel.SetActive(false);
+                 choiceButtonsPanel.SetActive(false);
+             }
+             if (tag == "letter_hide")
+             {
+                 if (_letterCoroutine != null)
+                     StopCoroutine(_letterCoroutine);
+
+                 HideLetterInstant();
+
+                 _dialoguePanel.SetActive(true);
+             }
+
+         }
+     }
+
+    private void HandleVisualState()
     {
-        foreach (string tag in tags)
+        if (_currentStory == null) return;
+
+
+        string bg = _currentStory.variablesState["bgName"] as string;
+        _backgroundController.SetBackground(bg); 
+
+
+        bool alinaVisible = (bool)_currentStory.variablesState["alinaVisible"];
+        Character alina = characters.Find(c => c.characterName == "Алина");
+        if (alina != null)
         {
-            if (tag.StartsWith("bg "))
-            {
-                string bgName = tag.Substring(3);
-                FindObjectOfType<BackgroundController>().SetBackground(bgName);
-            }
-            if (tag.StartsWith("show "))
-            {
-                string name = tag.Substring(5);
-                var character = characters.Find(c => c.characterName == name);
-                if (character != null)
-                {
-                    character.Show();
+            if (alinaVisible) alina.Show();
+            else alina.Hide();
+        }
 
-                    if (_currentStory.variablesState[character.currentEmotionVariable] != null)
-                    {
-                        int emotionIndex = Convert.ToInt32(_currentStory.variablesState[character.currentEmotionVariable]);
-                        character.ChangeEmotions(emotionIndex);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Не найдена переменная эмоции: {character.currentEmotionVariable}");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning($"Персонаж с именем '{name}' не найден!");
-                }
-            }
-            if (tag.StartsWith("hide "))
-            {
-                string name = tag.Substring(5);
-                var character = characters.Find(c => c.characterName == name);
-                if (character != null)
-                {
-                    character.Hide();
-                }
-                else
-                {
-                    Debug.LogWarning($"Персонаж для скрытия с именем '{name}' не найден!");
-                }
-            }
-            if (tag == "letter_show")
-            {
-                if (_letterCoroutine != null)
-                    StopCoroutine(_letterCoroutine);
-
-                ShowLetterInstant();
-
-                _dialoguePanel.SetActive(false);
-                choiceButtonsPanel.SetActive(false);
-            }
-            if (tag == "letter_hide")
-            {
-                if (_letterCoroutine != null)
-                    StopCoroutine(_letterCoroutine);
-
-                HideLetterInstant();
-
-                _dialoguePanel.SetActive(true);
-            }
-
+        bool unknownVisible = (bool)_currentStory.variablesState["ghostVisible"];
+        Character unknown = characters.Find(c => c.characterName == "???");
+        if (unknown != null)
+        {
+            if (unknownVisible) unknown.Show(); 
+            else unknown.Hide();
         }
     }
-/*
-    private IEnumerator ShowLetter()
-    {
-        letterPanel.SetActive(true);
-        letterCanvasGroup.alpha = 0f;
-
-        float duration = 1f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            letterCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        letterCanvasGroup.alpha = 1f;
-    }
-    
-        private IEnumerator HideLetter()
-        {
-            float duration = 1f;
-            float elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                letterCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            letterCanvasGroup.alpha = 0f;
-            letterPanel.SetActive(false);
-        }
-    */
 
     private void ShowLetterInstant()
     {
@@ -201,12 +163,12 @@ public class Dialogues : MonoBehaviour
 
     private void ShowDialogue()
     {
-        _dialogueText.text = _currentStory.Continue();
+        _dialogueText.text = _currentStory.Continue().Trim();
         HandleTags(_currentStory.currentTags);
+        HandleVisualState();
         _saveLoadService.SaveData();
         ChangeCharacter();
     }
-
     private void ChangeCharacter()
     {
         _nameText.text = (string)_currentStory.variablesState["characterName"];
