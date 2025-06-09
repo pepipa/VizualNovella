@@ -28,9 +28,20 @@ public class Dialogues : MonoBehaviour
     [SerializeField] private GameObject letterPanel;
     [SerializeField] private CanvasGroup letterCanvasGroup;
 
+    [SerializeField] private GameObject screamerPanel;
+    [SerializeField] private CanvasGroup screamerCanvasGroup;
+
+    [SerializeField] private GameObject bracletPanel;
+    [SerializeField] private CanvasGroup bracletCanvasGroup;
+
     private BackgroundController _backgroundController;
 
     private Coroutine _letterCoroutine;
+
+    private Coroutine _screamerCoroutine;
+
+    private Coroutine _bracletCoroutine; 
+
     public bool DialogPlay {  get; private set; }
     public Story CurrentStory => _currentStory;
     [Inject]
@@ -98,31 +109,78 @@ public class Dialogues : MonoBehaviour
         }
     }
     private void HandleTags(List<string> tags)
-     {
-         foreach (string tag in tags)
-         {         
-             if (tag == "letter_show")
-             {
-                 if (_letterCoroutine != null)
-                     StopCoroutine(_letterCoroutine);
+    {
+        foreach (string tag in tags)
+        {
+            if (tag == "letter_show")
+            {
+                if (_letterCoroutine != null)
+                    StopCoroutine(_letterCoroutine);
 
-                 ShowLetterInstant();
+                ShowLetterInstant();
 
-                 _dialoguePanel.SetActive(false);
-                 choiceButtonsPanel.SetActive(false);
-             }
-             if (tag == "letter_hide")
-             {
-                 if (_letterCoroutine != null)
-                     StopCoroutine(_letterCoroutine);
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "letter_hide")
+            {
+                if (_letterCoroutine != null)
+                    StopCoroutine(_letterCoroutine);
 
-                 HideLetterInstant();
+                HideLetterInstant();
 
-                 _dialoguePanel.SetActive(true);
-             }
+                _dialoguePanel.SetActive(true);
+            }
 
-         }
-     }
+            if (tag == "screamer_show")
+            {
+                if (_screamerCoroutine != null)
+                    StopCoroutine(_screamerCoroutine);
+
+                ShowScreamerInstant();
+
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "screamer_hide")
+            {
+                if (_screamerCoroutine != null)
+                    StopCoroutine(_screamerCoroutine);
+
+                HideScreamerInstant();
+
+                _dialoguePanel.SetActive(true);
+            }
+            if (tag == "braclet_show")
+            {
+                if (_bracletCoroutine != null)
+                    StopCoroutine(_bracletCoroutine);
+
+                ShowBracletInstant();
+
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "braclet_hide")
+            {
+                if (_bracletCoroutine != null)
+                    StopCoroutine(_bracletCoroutine);
+
+                HideBracletInstant();
+
+            }
+            else if (tag.StartsWith("loadScene"))
+            {
+                string[] parts = tag.Split(' ');
+                if (parts.Length > 1)
+                {
+                    string sceneName = parts[1];
+                    Debug.Log($"[Ink] Loading scene: {sceneName}");
+                    SceneManager.LoadScene(sceneName);
+                }
+            }
+        }  
+    }
+
 
     private void HandleVisualState()
     {
@@ -160,6 +218,28 @@ public class Dialogues : MonoBehaviour
         letterCanvasGroup.alpha = 0f;
         letterPanel.SetActive(false);
     }
+
+    private void ShowScreamerInstant()
+    {
+        screamerCanvasGroup.alpha = 1f;
+        screamerPanel.SetActive(true);
+    }
+    private void HideScreamerInstant()
+    {
+        screamerCanvasGroup.alpha = 0f;
+        screamerPanel.SetActive(false);
+    }
+    private void ShowBracletInstant()
+    {
+        bracletCanvasGroup.alpha= 1f;
+        bracletPanel.SetActive(true);
+    }
+
+    private void HideBracletInstant()
+    {
+        bracletCanvasGroup.alpha = 1f;
+        bracletPanel.SetActive(false);
+    }    
 
     private void ShowDialogue()
     {
