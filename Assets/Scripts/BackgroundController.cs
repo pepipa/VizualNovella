@@ -16,12 +16,21 @@ public class BackgroundController : MonoBehaviour
     public Sprite chapter2BgMRN;
     public Sprite chapter2BgMRH;
     public Sprite chapter2BgrMH;
+    public Sprite chapter3Bg;
+    public Sprite chapter3BgD;
+    public Sprite chapter3BgDZ;
+    public Sprite chapter3AF;
+    public Sprite whiteBg;
+
     public void SetBackground(string name)
     {
         switch (name)
         {
             case "black":
                 backgroundImage.sprite = blackBg;
+                break;
+            case "white":
+                backgroundImage.sprite = whiteBg;
                 break;
             case "chapter1":
                 backgroundImage.sprite = chapter1Bg;
@@ -47,6 +56,19 @@ public class BackgroundController : MonoBehaviour
             case "chapter2_room_mother_horror":
                 backgroundImage.sprite = chapter2BgrMH;
                 break;
+            case "chapter3":
+                backgroundImage.sprite = chapter3Bg;
+                break;
+            case "chapter3_doors":
+                backgroundImage.sprite = chapter3BgD;;
+                break;
+            case "chapter3_door_zoom":
+                backgroundImage.sprite = chapter3BgDZ; ;
+                break;
+            case "chapter3_alina_final":
+                backgroundImage.sprite = chapter3AF; ;
+                break;
+
             default:
                 Debug.LogWarning("Нет такого фона: " + name);
                 break;

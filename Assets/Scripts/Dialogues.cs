@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -28,19 +29,50 @@ public class Dialogues : MonoBehaviour
     [SerializeField] private GameObject letterPanel;
     [SerializeField] private CanvasGroup letterCanvasGroup;
 
+    [SerializeField] private GameObject letterPanel2;
+    [SerializeField] private CanvasGroup letterCanvasGroup2;
+
     [SerializeField] private GameObject screamerPanel;
     [SerializeField] private CanvasGroup screamerCanvasGroup;
 
     [SerializeField] private GameObject bracletPanel;
     [SerializeField] private CanvasGroup bracletCanvasGroup;
 
+    [SerializeField] private GameObject keyPanel;
+    [SerializeField] private CanvasGroup keyCanvasGroup;
+
+    [SerializeField] private GameObject keySoundPanel;
+    [SerializeField] private CanvasGroup keySoundCanvasGroup;
+
+    [SerializeField] private GameObject letterPanel3;
+    [SerializeField] private CanvasGroup letterCanvasGroup3;
+
+    [SerializeField] private GameObject streetPanel;
+    [SerializeField] private CanvasGroup streetCanvasGroup;
+
+    [SerializeField] private GameObject fragmentPanel;
+    [SerializeField] private CanvasGroup fragmentCanvasGroup;
+
+
     private BackgroundController _backgroundController;
 
     private Coroutine _letterCoroutine;
 
+    private Coroutine _letterCoroutine2;
+
     private Coroutine _screamerCoroutine;
 
     private Coroutine _bracletCoroutine; 
+
+    private Coroutine _keyCoroutine;
+
+    private Coroutine _keySoundCoroutine;
+
+    private Coroutine _letterCoroutine3;
+
+    private Coroutine _streetCoroutine;
+
+    private Coroutine _fragmentCoroutine;
 
     public bool DialogPlay {  get; private set; }
     public Story CurrentStory => _currentStory;
@@ -112,6 +144,26 @@ public class Dialogues : MonoBehaviour
     {
         foreach (string tag in tags)
         {
+
+            if (tag == "fragment_show")
+            {
+                if (_fragmentCoroutine != null)
+                    StopCoroutine(_fragmentCoroutine);
+
+                ShowFragmentInstant();
+
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "fragment_hide")
+            {
+                if (_fragmentCoroutine != null)
+                    StopCoroutine(_fragmentCoroutine);
+
+                HideFragmentInstant();
+
+                _dialoguePanel.SetActive(true);
+            }
             if (tag == "letter_show")
             {
                 if (_letterCoroutine != null)
@@ -128,6 +180,26 @@ public class Dialogues : MonoBehaviour
                     StopCoroutine(_letterCoroutine);
 
                 HideLetterInstant();
+
+                _dialoguePanel.SetActive(true);
+            }
+
+            if (tag == "letter_show2")
+            {
+                if (_letterCoroutine2 != null)
+                    StopCoroutine(_letterCoroutine2);
+
+                ShowLetterInstant2();
+
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "letter_hide2")
+            {
+                if (_letterCoroutine2 != null)
+                    StopCoroutine(_letterCoroutine2);
+
+                HideLetterInstant2();
 
                 _dialoguePanel.SetActive(true);
             }
@@ -167,6 +239,71 @@ public class Dialogues : MonoBehaviour
 
                 HideBracletInstant();
 
+            }
+            if (tag == "key_show")
+            {
+                if (_keyCoroutine != null)
+                    StopCoroutine(_keyCoroutine);
+
+                ShowKeyInstant();
+
+            }
+            else if (tag == "key_hide")
+            {
+                if (_keyCoroutine != null)
+                    StopCoroutine(_keyCoroutine);
+
+                HideKeyInstant();
+
+            }
+            if (tag == "key_sound_show")
+            {
+                if (_keySoundCoroutine != null)
+                    StopCoroutine(_keySoundCoroutine);
+
+                ShowKeySoundInstant();
+
+            }
+            else if (tag == "key_sound_hide")
+            {
+                if (_keySoundCoroutine != null)
+                    StopCoroutine(_keySoundCoroutine);
+
+                HideKeySoundInstant();
+
+            }
+            if (tag == "letter_show3")
+            {
+                if (_letterCoroutine3 != null)
+                    StopCoroutine(_letterCoroutine3);
+
+                ShowLetterInstant3();
+
+                _dialoguePanel.SetActive(false);
+                choiceButtonsPanel.SetActive(false);
+            }
+            else if (tag == "letter_hide3")
+            {
+                if (_letterCoroutine3 != null)
+                    StopCoroutine(_letterCoroutine3);
+
+                HideLetterInstant3();
+
+                _dialoguePanel.SetActive(true);
+            }
+            if (tag == "sound_street_show")
+            {
+                if (_streetCoroutine != null)
+                    StopCoroutine(_streetCoroutine);
+
+                ShowStreetInstant();
+            }
+            else if (tag == "sound_street_hide")
+            {
+                if (_streetCoroutine != null)
+                    StopCoroutine(_streetCoroutine);
+
+                HideStreetInstant();
             }
             else if (tag.StartsWith("loadScene"))
             {
@@ -208,6 +345,29 @@ public class Dialogues : MonoBehaviour
         }
     }
 
+    private void ShowFragmentInstant()
+    {
+        fragmentCanvasGroup.alpha = 1f;
+        fragmentPanel.SetActive(true);
+    }
+
+    private void HideFragmentInstant()
+    {
+        fragmentCanvasGroup.alpha = 0f;
+        fragmentPanel.SetActive(false);
+    }
+
+    private void ShowStreetInstant()
+    {
+        streetCanvasGroup.alpha = 1f;
+        streetPanel.SetActive(true);
+    }
+    private void HideStreetInstant()
+    {
+        streetCanvasGroup.alpha = 0f;
+        streetPanel.SetActive(false);
+    }
+
     private void ShowLetterInstant()
     {
         letterCanvasGroup.alpha = 1f;
@@ -217,6 +377,28 @@ public class Dialogues : MonoBehaviour
     {
         letterCanvasGroup.alpha = 0f;
         letterPanel.SetActive(false);
+    }
+
+    private void ShowLetterInstant2()
+    {
+        letterCanvasGroup2.alpha = 1f;
+        letterPanel.SetActive(true);
+    }
+    private void HideLetterInstant2()
+    {
+        letterCanvasGroup2.alpha = 0f;
+        letterPanel.SetActive(false);
+    }
+
+    private void ShowLetterInstant3()
+    {
+        letterCanvasGroup3.alpha = 1f;
+        letterPanel3.SetActive(true);
+    }
+    private void HideLetterInstant3()
+    {
+        letterCanvasGroup3.alpha = 0f;
+        letterPanel3.SetActive(false);
     }
 
     private void ShowScreamerInstant()
@@ -237,9 +419,32 @@ public class Dialogues : MonoBehaviour
 
     private void HideBracletInstant()
     {
-        bracletCanvasGroup.alpha = 1f;
+        bracletCanvasGroup.alpha = 0f;
         bracletPanel.SetActive(false);
     }    
+
+    private void ShowKeyInstant()
+    {
+        keyCanvasGroup.alpha = 1f;
+        keyPanel.SetActive(true);
+    }
+    private void HideKeyInstant()
+    {
+        keyCanvasGroup.alpha = 0f;
+        keyPanel.SetActive(false);
+    }
+
+    private void ShowKeySoundInstant()
+    {
+        keySoundCanvasGroup.alpha = 1f;
+        keySoundPanel.SetActive(true);
+    }
+    private void HideKeySoundInstant()
+    {
+        keySoundCanvasGroup.alpha = 0f;
+        keySoundPanel.SetActive(false);
+    }
+
 
     private void ShowDialogue()
     {
