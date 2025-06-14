@@ -27,6 +27,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Chapter2.unity
     guid: aee6b1bbb5482514c8b5673e4bf7670f
   - enabled: 1
+    path: Assets/Scenes/PuzzleScene.unity
+    guid: 38af3b86cd0d1e1479e3184fd1815ae2
+  - enabled: 1
+    path: Assets/Scenes/Chapter2PuzzleContinue.unity
+    guid: a42fee2340969ff42830fbb85f214a5c
+  - enabled: 1
     path: Assets/Scenes/IntroScene3Bad.unity
     guid: 9ea03ed4e02a1ab4aa320df609ea8ce1
   - enabled: 1
